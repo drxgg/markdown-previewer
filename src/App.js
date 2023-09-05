@@ -1,23 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { marked } from "marked";
+import "./App.css";
 
 function App() {
+  const [markdown, setMarkdown] = useState(
+    "# Hello, World!\n## Sub-heading\n[Link](https://www.google.com)\n`Inline Code`\n```\nCode Block\n```\n- List Item\n> Blockquote\n![Image](https://www.google.com/image.png)\n**Bold Text**"
+  );
+
+  const handleChange = (e) => {
+    setMarkdown(e.target.value);
+  };
+
+  const createMarkup = () => {
+    return { __html: marked(markdown) };
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <textarea id="editor" value={markdown} onChange={handleChange}></textarea>
+      <div id="preview" dangerouslySetInnerHTML={createMarkup()}></div>
     </div>
   );
 }
